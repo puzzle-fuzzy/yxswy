@@ -1,0 +1,4 @@
+interface:
+  display_name: "yxswy"
+  short_description: "Apply the user's TypeScript full-stack coding habits."
+  default_prompt: "Use $yxswy to implement this project in my usual TypeScript full-stack style."
