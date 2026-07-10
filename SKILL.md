@@ -60,6 +60,17 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 - Add provider health/degradation policy when model calls can fail repeatedly. Keep the policy pure and let DB/app layers persist or enforce it.
 - Use SSE, database notifications, or an event bus for live status updates when a task lifecycle is visible to the frontend.
 
+## Production Readiness
+
+- Treat configuration as code. Prefer typed env packages or config modules with client/server separation, production fail-fast checks, safe development defaults, and no secret leakage into frontend bundles.
+- Keep database migrations explicit. Separate `generate`, `migrate`, `push`, `studio`, and test DB scripts; do not run destructive migrations or reset data without explicit user approval.
+- Design auth for revocation and auditing. Prefer httpOnly cookies or scoped API keys, hash stored secrets, track last-used metadata, support logout/revocation, and enforce quota/rate-limit where external usage can cost money.
+- Make public APIs observable. Include request IDs or trace IDs, structured logs, health endpoints, useful metrics, and consistent error bodies with stable codes.
+- Keep upload, file, and static-serving paths hardened: sanitize path components, cap request body size, set MIME/content type intentionally, and isolate storage behind adapters.
+- Keep OpenAPI/docs useful but avoid exposing internal route/schema details in production unless intentionally configured.
+- Add a top-level `verify` or equivalent script when a repo grows: boundary checks, typecheck, lint, unit tests, and focused integration tests should be easy to run together.
+- Favor graceful degradation over silent failure for external systems: retries with backoff, circuit/degradation state, user-facing recovery guidance, and diagnostics that can be copied into support/debug flows.
+
 ## Desktop Style
 
 - For Electron, keep `main`, `preload`, and `renderer` separated. Use `contextBridge`, typed window bridges, `contextIsolation: true`, and IPC methods that mirror the typed client surface.
