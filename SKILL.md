@@ -15,7 +15,7 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 
 - Inspect the repository before changing code. Identify package manager, workspace layout, scripts, linting, typecheck, test runner, and naming conventions.
 - Prefer the repo's current package manager. For greenfield personal projects, Bun and pnpm are both natural; Bun is common for newer service-heavy work, pnpm is common in larger workspace setups.
-- Prefer monorepos with `apps/*`, `services/*`, and `packages/*` when the product has multiple surfaces.
+- Prefer monorepos with `apps/*`, `services/*`, and `packages/*` when the product has multiple surfaces. If there is only one frontend app and one backend API, keep both under `apps/*` (for example `apps/web` and `apps/api`). Use `services/*` when there are multiple backend services or multiple frontend apps and the backend should stand apart.
 - Keep shared contracts in packages such as `shared`, `db`, `api-client`, `config`, `runtime`, `storage`, or domain-specific packages.
 - Favor explicit boundaries. If a package boundary checker exists, keep imports within it and update the checker when introducing a legitimate new boundary.
 - Preserve shared engineering config packages when present, such as workspace `eslint-config`, `tsconfig`, Tailwind config, Biome, oxlint, lint-staged, Husky, or Turbo pipeline settings.
@@ -25,6 +25,7 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 ## Backend Style
 
 - Use Elysia or Hono naturally for APIs; preserve whichever the project already uses.
+- Preserve end-to-end TypeScript contracts between frontend and backend. For Elysia APIs, prefer `@elysia/eden`; for Hono APIs, prefer `hono/client` or the repo's equivalent typed client.
 - Prefer app factories for testability. Avoid top-level `listen` or provider startup in modules that tests import.
 - Register middleware intentionally: OpenAPI/docs, logging, request ID, security headers, rate limit, CORS, static assets, error handling, auth, then business routes, unless the repo has a different established order.
 - Prefer services with dependency-injected repositories/adapters over direct hard-coded infrastructure calls.
@@ -90,7 +91,8 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 - Start with a small but real vertical slice rather than a hollow scaffold.
 - If building a full-stack product, prefer:
   - `apps/web` or `apps/client` for the frontend.
-  - `services/api` or `apps/server` for the API.
+  - `apps/api` or `apps/server` for the backend when there is only one backend service.
+  - `services/api`, `services/worker`, or other `services/*` folders when there are multiple backend services or the workspace has multiple frontend apps.
   - `services/worker` when background work or provider polling exists.
   - `packages/shared` for schemas and pure domain types.
   - `packages/db` for Drizzle schema and database helpers.
