@@ -42,8 +42,7 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 
 ## Frontend Style
 
-- Use React + Vite as the default web stack unless the repo says otherwise.
-- Vue 3 + Vite + Pinia + Vue Router + Element Plus is also a normal stack in this user's code, especially for admin/H5 projects. Do not force React into existing Vue projects.
+- Choose frontend framework by project complexity. Use Vue 3 + Vite for simpler projects, admin/H5 surfaces, and straightforward CRUD or interaction flows. Use React + Vite for more complex products because its ecosystem is more complete for rich state, UI composition, dashboards, typed clients, and advanced product workflows.
 - Use Tailwind, shadcn-style components, Radix/Base UI patterns, and lucide-react icons when present.
 - Build practical product UI first: dashboards, consoles, deploy tools, upload flows, admin views, and dense operational screens should be compact, direct, and usable.
 - Prefer feature folders and hooks for client behavior: `features/*`, `shared/*`, `components/ui/*`, `pages/*`, or the local equivalent.
