@@ -28,6 +28,7 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 - Preserve end-to-end TypeScript contracts between frontend and backend. For Elysia APIs, prefer `@elysia/eden`; for Hono APIs, prefer `hono/client` or the repo's equivalent typed client.
 - Prefer app factories for testability. Avoid top-level `listen` or provider startup in modules that tests import.
 - Register middleware intentionally: OpenAPI/docs, logging, request ID, security headers, rate limit, CORS, static assets, error handling, auth, then business routes, unless the repo has a different established order.
+- Prefer official or mature framework integrations over hand-written infrastructure. For Elysia CORS, use `@elysia/cors` instead of custom CORS handling; apply the same principle to cookies, JWT, OpenAPI, static files, and similar cross-cutting middleware.
 - Prefer services with dependency-injected repositories/adapters over direct hard-coded infrastructure calls.
 - Keep repositories responsible for persistence and state transitions. Keep services responsible for permissions, auth, orchestration, validation, and business flow.
 - Model domain errors explicitly with stable error codes/classes or discriminated results. Return typed service errors where the existing project does that; throw only for truly exceptional or infrastructure-level failures.
@@ -66,6 +67,7 @@ The user is a TypeScript full-stack engineer. They sometimes use Tauri/Rust and 
 - Keep database migrations explicit. Separate `generate`, `migrate`, `push`, `studio`, and test DB scripts; do not run destructive migrations or reset data without explicit user approval.
 - Design auth for revocation and auditing. Prefer httpOnly cookies or scoped API keys, hash stored secrets, track last-used metadata, support logout/revocation, and enforce quota/rate-limit where external usage can cost money.
 - Make public APIs observable. Include request IDs or trace IDs, structured logs, health endpoints, useful metrics, and consistent error bodies with stable codes.
+- After the MVP version, add structured logging instead of relying on ad hoc `console` output. Prefer popular, maintained packages such as `pino` or a better-fit npm library for the stack; do not hand-roll a logger unless the project already has a good reason.
 - Keep upload, file, and static-serving paths hardened: sanitize path components, cap request body size, set MIME/content type intentionally, and isolate storage behind adapters.
 - Keep OpenAPI/docs useful but avoid exposing internal route/schema details in production unless intentionally configured.
 - Add a top-level `verify` or equivalent script when a repo grows: boundary checks, typecheck, lint, unit tests, and focused integration tests should be easy to run together.
